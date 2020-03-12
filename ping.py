@@ -11,4 +11,4 @@ status = a['status']
 if status == 'OK':
 	print('I received a pong')
 else:
-	print(f'Error: "{status}"')
+	print(f'Error (not OK): "{status}"')
