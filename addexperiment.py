@@ -26,7 +26,7 @@ def add_experiment(self, demo_id, blobs, parameters, execution=None):
 	}
 	r = requests.post(url, params=params)
 	print(r.json())
-add_experiment(None, 8, [{'blob1': 'path'}], {"trend": 100}, None)
+add_experiment(None, 8, [{'blob1': "Home/Downloads/cat.png"}], {"trend": 100}, None)
 
 
     
