@@ -18,7 +18,7 @@ print("filename : " + path.split("/")[-1])
 
 #add an experiment to the archive
 def add_experiment(self, demo_id, blobs, parameters, execution=None):
-	files = {'blob': urlopen('file:///' + path)}
+	files = {'blobs': path}
 	params = {
 		'demo_id': demo_id,
 		'blobs': json.dumps(blobs),
@@ -27,7 +27,6 @@ def add_experiment(self, demo_id, blobs, parameters, execution=None):
 	r = requests.post(url, params=params, files=files)
 	print(r.status_code)
 add_experiment(None, 49, path, {"trend": 100}, None)
-
     
 
 
