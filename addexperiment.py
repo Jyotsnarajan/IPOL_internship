@@ -18,15 +18,17 @@ print("filename : " + path.split("/")[-1])
 
 #add an experiment to the archive
 def add_experiment(self, demo_id, blobs, parameters, execution=None):
-	files = {'blobs': path}
+
 	params = {
 		'demo_id': demo_id,
 		'blobs': json.dumps(blobs),
 		'parameters': json.dumps(parameters)
 	}
-	r = requests.post(url, params=params, files=files)
+	r = requests.post(url, params=params)
 	print(r.status_code)
-add_experiment(None, 49, path, {"trend": 100}, None)
+	response = r.json()
+	print(response)
+add_experiment(None, 77777000049, [{"Input image": "/home/jyotsna/Downloads/cat.png", "Votes": "/home/jyotsna/Downloads/votes.png"}], {"trend": 100}, None)
     
 
 
