@@ -7,6 +7,7 @@ import os
 
 url = 'http://localhost/api/archive/add_experiment'
 
+#print command line arguments
 print('Number of arguments:', len(sys.argv), 'arguments.')
 print('Argument List:', str(sys.argv))
 path = sys.argv[1]
@@ -24,11 +25,17 @@ def add_experiment(self, demo_id, blobs, parameters, execution=None):
 		'blobs': json.dumps(blobs),
 		'parameters': json.dumps(parameters)
 	}
+	
+#request the post service
 	r = requests.post(url, params=params)
+	
+#print the response
 	print(r.status_code)
 	response = r.json()
 	print(response)
-add_experiment(None, 77777000049, [{"Input image": "/home/jyotsna/Downloads/cat.png", "Votes": "/home/jyotsna/Downloads/votes.png"}], {"trend": 100}, None)
+	
+#calling the experiment
+add_experiment(None, 77777000049, [{"Input image": "/home/jyotsna/Downloads/cat.png"}, {"Votes": "/home/jyotsna/Downloads/votes.png"}], {"trend": 100}, None)
     
 
 
