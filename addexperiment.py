@@ -2,23 +2,18 @@
 from urllib.request import urlopen
 import requests
 import json
-import sys
-import os
+import argparse
 
 url = 'http://localhost/api/archive/add_experiment'
 
-#print command line arguments
-print('Number of arguments:', len(sys.argv), 'arguments.')
-print('Argument List:', str(sys.argv))
-path = sys.argv[1]
-if os.path.exists(path):
-    print("File exist")
-
-# Get filename
-print("filename : " + path.split("/")[-1])
+#parse the arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("--image", "-i", required = True, help = "Path to input image")
+args = vars(ap.parse_args())
+print(args)
 
 #add an experiment to the archive
-def add_experiment(self, demo_id, blobs, parameters, execution=None):
+def add_experiment(demo_id, blobs, parameters):
 
 	params = {
 		'demo_id': demo_id,
@@ -35,12 +30,7 @@ def add_experiment(self, demo_id, blobs, parameters, execution=None):
 	print(response)
 	
 #calling the experiment
-add_experiment(None, 77777000049, [{"Input image": "/home/jyotsna/Downloads/cat.png"}, {"Votes": "/home/jyotsna/Downloads/votes.png"}], {"trend": 100}, None)
-    
-
-
-    
-    
+add_experiment(77777000049, args, {"trend": 100})
     
     
     
