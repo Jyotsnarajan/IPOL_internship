@@ -9,8 +9,8 @@ url = 'http://localhost/api/archive/add_experiment'
 #parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("--image", "-i", required = True, help = "Path to input image")
+ap.add_argument("--image1", "-i1", required = True, help = "Path to input image")
 args = vars(ap.parse_args())
-print(args)
 
 #add an experiment to the archive
 def add_experiment(demo_id, blobs, parameters):
@@ -27,10 +27,13 @@ def add_experiment(demo_id, blobs, parameters):
 #print the response
 	print(r.status_code)
 	response = r.json()
-	print(response)
-	
+	if response['status']!='OK':
+		raise CustomError("An error occurred")
+	else:
+		print(response)
+		
 #calling the experiment
-add_experiment(77777000049, args, {"trend": 100})
+add_experiment(77777000049, [{"input image": args['image']}, {"votes": args['image1']}], {"trend": 100})
     
     
     
