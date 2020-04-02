@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 from urllib.request import urlopen
+from PIL import Image
+import argparse
 import requests
 import json
-import argparse
-from PIL import Image
 import os
 
 url = 'http://localhost/api/archive/add_experiment'
@@ -17,6 +17,7 @@ args = vars(ap.parse_args())
 
 # creating thumbnails
 MAX_SIZE = (100, 100)
+
 for image in args.values():
 	filename, ext = os.path.splitext(image)
 	file = Image.open(image)
