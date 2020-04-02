@@ -4,25 +4,24 @@ import requests
 import json
 import argparse
 from PIL import Image
+import os
 
 url = 'http://localhost/api/archive/add_experiment'
+path = '/home/jyotsna/Downloads/'
 
 #parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("--cat", "-i", required = True, help = "Path to input image")
 ap.add_argument("--votes", "-i1", required = True, help = "Path to input image")
-ap.add_argument("--catthumb", "-it", required = True, help = "Path to input image")
-ap.add_argument("--votesthumb", "-it1", required = True, help = "Path to input image")
 args = vars(ap.parse_args())
 
-# creating thumbnails  
-image = Image.open(args['cat'])
-image1 = Image.open(args['votes'])
+# creating thumbnails
 MAX_SIZE = (100, 100)
-image.thumbnail(MAX_SIZE)
-image1.thumbnail(MAX_SIZE) 
-image.save(args['catthumb'])
-image1.save(args['votesthumb'])
+for image in args.values():
+	filename, ext = os.path.splitext(image)
+	file = Image.open(image)
+	file.thumbnail(MAX_SIZE)
+	file.save(filename + '_thumbnail.png')
 
 #add an experiment to the archive
 def add_experiment(demo_id, blobs, parameters):
@@ -45,7 +44,7 @@ def add_experiment(demo_id, blobs, parameters):
 		print(response)
 		
 #calling the experiment
-add_experiment(77777000049, [{"input image": args['cat'], "thumbnail": args['catthumb']}, {"votes": args['votes'], "thumbnail": args['votesthumb']}], {"trend": 100})
+add_experiment(77777000049, [{"input image": args['cat'], "thumbnail": os.path.join(path, "cat_thumbnail.png")}, {"votes": args['votes'], "thumbnail": os.path.join(path, "votes_thumbnail.png")}], {"trend": 100})
     
     
     
