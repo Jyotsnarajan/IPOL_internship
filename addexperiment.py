@@ -8,6 +8,8 @@ import os
 
 url = 'http://localhost/api/archive/add_experiment'
 path = '/home/jyotsna/Downloads/'
+path1 = os.path.join(path, "cat_thumbnail.png")
+path2 = os.path.join(path, "votes_thumbnail.png")
 
 #parse the arguments
 ap = argparse.ArgumentParser()
@@ -17,7 +19,6 @@ args = vars(ap.parse_args())
 
 # creating thumbnails
 MAX_SIZE = (100, 100)
-
 for image in args.values():
 	filename, ext = os.path.splitext(image)
 	file = Image.open(image)
@@ -45,7 +46,7 @@ def add_experiment(demo_id, blobs, parameters):
 		print(response)
 		
 #calling the experiment
-add_experiment(77777000049, [{"input image": args['cat'], "thumbnail": os.path.join(path, "cat_thumbnail.png")}, {"votes": args['votes'], "thumbnail": os.path.join(path, "votes_thumbnail.png")}], {"trend": 100})
+add_experiment(77777000049, [{"cat": args['cat'], "thumbnail": path1}, {"votes": args['votes'], "thumbnail": path2}], {"trend": 100})
     
     
     
