@@ -48,11 +48,16 @@ def add_experiment(demo_id, blobs, parameters):
 	except Exception as e:
 		print(e)
 
-#blobs parameter to be passed
-blobs = [{"cat": args['cat'], "thumbnail": path1}, {"votes": args['votes'], "thumbnail": path2}]
+#parameters to be passed in add_experiment()
+demo_id = 77777000049
+blobs = [
+	{"cat": args['cat'], "thumbnail": path1}, 
+	{"votes": args['votes'], "thumbnail": path2}
+]
+parameters = {"trend": 100}
 
 #calling the experiment
-add_experiment(77777000049, blobs, {"trend": 100})
+add_experiment(demo_id, blobs, parameters)
     
     
     
