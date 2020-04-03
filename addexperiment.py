@@ -47,9 +47,12 @@ def add_experiment(demo_id, blobs, parameters):
 			print(f'Error (not OK): "{response}"')
 	except Exception as e:
 		print(e)
-			
+
+#blobs parameter to be passed
+blobs = [{"cat": args['cat'], "thumbnail": path1}, {"votes": args['votes'], "thumbnail": path2}]
+
 #calling the experiment
-add_experiment(77777000049, [{"cat": args['cat'], "thumbnail": path1}, {"votes": args['votes'], "thumbnail": path2}], {"trend": 100})
+add_experiment(77777000049, blobs, {"trend": 100})
     
     
     
