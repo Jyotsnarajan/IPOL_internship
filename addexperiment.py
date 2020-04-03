@@ -40,11 +40,14 @@ def add_experiment(demo_id, blobs, parameters):
 #print the response
 	print(r.status_code)
 	response = r.json()
-	if response['status']!='OK':
-		raise CustomError("An error occurred")
-	else:
-		print(response)
-		
+	try:
+		if response['status'] == 'OK':
+			print(response)
+		else:
+			print(f'Error (not OK): "{response}"')
+	except Exception as e:
+		print(e)
+			
 #calling the experiment
 add_experiment(77777000049, [{"cat": args['cat'], "thumbnail": path1}, {"votes": args['votes'], "thumbnail": path2}], {"trend": 100})
     
