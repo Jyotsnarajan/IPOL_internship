@@ -21,11 +21,9 @@ def get_page(demo_id, page):
 	 }
 	 r = requests.get(get_page_url, params=params)
 	 response = r.json()
-	 status = response['stauts']
-	 print(status)
+	 print(response)
 	 
-#checking if the archive is empty
-	 
+#clering the archive	 
 	 nb_pages = response['meta']['number_of_pages']
 	 
 	 i = 1
