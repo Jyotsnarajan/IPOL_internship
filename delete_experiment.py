@@ -32,7 +32,7 @@ def delete_experiment(experiment_id):
 	r2 = requests.delete('http://localhost/api/archive/delete_experiment', params=params)
 	response2 = r2.json()
 	try:
-		if response['status']=='OK':
+		if response2['status']=='OK':
 			print(response2)
 		else:
 			print(f'status not OK: "{response2}"')
