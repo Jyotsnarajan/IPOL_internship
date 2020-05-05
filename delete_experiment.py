@@ -17,10 +17,7 @@ def get_page(demo_id, page):
 	'''
 	Get the pages
 	'''
-	params = {
-		'demo_id': demo_id,
-		'page': page
-	}
+	params = {'demo_id': demo_id}
 	r1 = requests.get('http://localhost/api/archive/get_page', params=params)
 	response1 = r1.json()
 	
@@ -31,13 +28,16 @@ def delete_experiment(experiment_id):
 	params = {'experiment_id': experiment_id}
 	r2 = requests.delete('http://localhost/api/archive/delete_experiment', params=params)
 	response2 = r2.json()
-	try:
-		if response2['status']=='OK':
-			print(response2)
-		else:
-			print(f'status not OK: "{response2}"')
-	except Exception as e:
-		print(e)
+	if response2['status'] != 'OK'
+	raise RemoveExperimentException("data not found")
+	
+class RemoveExperimentException(Exception):
+	'''
+	Remove experiment error
+	'''
+	def __init__(self, message):
+		super(RemoveExperimentException, self).__init__()
+		self.message = message			
 		
 #parse the arguments
 ap = argparse.ArgumentParser()
