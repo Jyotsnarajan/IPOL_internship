@@ -28,8 +28,10 @@ def delete_experiment(experiment_id):
 	params = {'experiment_id': experiment_id}
 	r2 = requests.delete('http://localhost/api/archive/delete_experiment', params=params)
 	response2 = r2.json()
-	if response2['status'] != 'OK'
-	raise RemoveExperimentException("data not found")
+	if response2['status']=='OK':
+		print(response2)
+	else:
+		raise RemoveExperimentException("data not found")
 	
 class RemoveExperimentException(Exception):
 	'''
