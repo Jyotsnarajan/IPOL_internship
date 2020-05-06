@@ -4,22 +4,22 @@ import requests
 import argparse
 import json
 
-def get_info(demo_id):
+class RemoveExperimentException(Exception):
 	'''
-	Get info from archive
+	Remove experiment error
 	'''
-	params = {'demo_id': demo_id}
-	r = requests.get('http://localhost/api/archive/get_page', params=params)
-	response = r.json()
-	return response
+	def __init__(self, message):
+		super(RemoveExperimentException, self).__init__()
+		self.message = message
 	
-def get_page(demo_id, page):
+def get_page(demo_id):
 	'''
 	Get the pages
 	'''
 	params = {'demo_id': demo_id}
 	r1 = requests.get('http://localhost/api/archive/get_page', params=params)
 	response1 = r1.json()
+	return response1
 	
 def delete_experiment(experiment_id):
 	'''
@@ -32,25 +32,19 @@ def delete_experiment(experiment_id):
 		print(response2)
 	else:
 		raise RemoveExperimentException("data not found")
-	
-class RemoveExperimentException(Exception):
-	'''
-	Remove experiment error
-	'''
-	def __init__(self, message):
-		super(RemoveExperimentException, self).__init__()
-		self.message = message			
+			
 		
 #parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("--demoid", "-id", required = True, help = "demo id required")
-args = vars(ap.parse_args())
+ap.add_argument("--demo_id", "-id", required = True, type=int, help = "demo id required")
+args = ap.parse_args()
+demo_id = args.demo_id
 
 #clear the archive
-nb_pages = get_info(args['demoid'])['meta']['number_of_pages']
+nb_pages = get_page(demo_id)['meta']['number_of_pages']
 
 for i in range(nb_pages):
-	page = get_page(args['demoid'], i)
+	page = get_page(demo_id)
 	for experiment in page['experiments']:
 		print(experiment['id'])
 		delete_experiment(experiment['id'])
