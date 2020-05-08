@@ -36,11 +36,11 @@ def read_archive(directory):
             print(f'There are {number_of_blobs} blobs')
 
             dir_files = []
-            for dirpath, _, filenames in os.walk(directory):
+            for _, _, filenames in os.walk(directory):
                 for f in filenames:
                     if not f.startswith('.') and f != 'index.cfg':
                         dir_files.append(f)
-            
+
             for file in files_list:
                 if file in dir_files:
                     print(f' Name: "{config_dict["fileinfo"][file]}", File: "{file}"')
@@ -51,9 +51,10 @@ def read_archive(directory):
 
 # parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("--archive", "-a", required=True,
+ap.add_argument("--archive_dir", "-a", required=True,
                 help="archive directory containing 'index.cfg' files")
-args = vars(ap.parse_args())
+args = ap.parse_args()
+archive_dir = args.archive_dir
 
 # calling the function
-read_archive(args['archive'])
+read_archive(archive_dir)
