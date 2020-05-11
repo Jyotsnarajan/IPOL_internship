@@ -35,17 +35,15 @@ def read_archive(directory):
             number_of_blobs = len(config_dict['fileinfo'].items())
             print(f'There are {number_of_blobs} blobs')
 
-            dir_files = []
-            for _, _, filenames in os.walk(directory):
-                for f in filenames:
-                    if not f.startswith('.') and f != 'index.cfg':
-                        dir_files.append(f)
+            dir_path = os.path.dirname(exp_path)
 
             for file in files_list:
-                if file in dir_files:
+                file_path = os.path.join(dir_path, file)
+                if os.path.isfile(file_path):
                     print(f' Name: "{config_dict["fileinfo"][file]}", File: "{file}"')
                 else:
                     raise FileNotFoundError(file)
+
         else:
             break
 
