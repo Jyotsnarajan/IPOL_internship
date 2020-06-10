@@ -62,7 +62,7 @@ def read_archive(directory):
             name = value
             dir_path = os.path.dirname(exp_path)
             file_path = os.path.join(dir_path, key)
-            blobs.append({name: file_path})
+            blobs.append({name: file_path, 'thumbnail': file_path})
 
         yield blobs, parameters, date
 
@@ -94,7 +94,7 @@ def update_experiment_date(experiment_id, date):
     params={
         'experiment_id': experiment_id,
         'date': date,
-        'date_format': '%Y/%m/%d %H:%M'
+        'date_format': '%Y/%m/%d %H:%M:%S'
     }
     response = requests.post('http://localhost/api/archive/update_experiment_date', params=params).json()
     print(response)
