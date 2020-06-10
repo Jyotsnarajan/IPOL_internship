@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from requests.auth import HTTPBasicAuth
 from pathlib import Path
 from urllib.request import urlopen
 from configparser import ConfigParser
@@ -14,7 +13,7 @@ def get_blobs(demo_id):
     get all the blobs
     '''
     params = {'demo_id': demo_id}
-    response = requests.get('http://integration.ipol.im/api/blobs/get_blobs', params=params, auth=HTTPBasicAuth('integration', 'integration')).json()
+    response = requests.get('http://integration.ipol.im/api/blobs/get_blobs', params=params).json()
     #print(response)
     return response
 
@@ -25,7 +24,7 @@ def remove_blob_from_demo(demo_id, blob_set, pos_set):
     params = {'demo_id': demo_id,
             'pos_set': pos_set,
             'blob_set': blob_set}
-    response = requests.delete('http://integration.ipol.im/api/blobs/remove_blob_from_demo', params=params, auth=HTTPBasicAuth('integration', 'integration')).json()
+    response = requests.delete('http://integration.ipol.im/api/blobs/remove_blob_from_demo', params=params).json()
 
     try:
         assert response['status'] == 'OK', "error deleting the blobs"
@@ -43,7 +42,7 @@ def add_blob_to_demo(path, demo_id, title, credit):
             'credit': credit
     }
     files = {'blob': urlopen('file:///' + path)}
-    response = requests.post('http://integration.ipol.im/api/blobs/add_blob_to_demo', params=params, files=files, auth=HTTPBasicAuth('integration', 'integration')).json()
+    response = requests.post('http://integration.ipol.im/api/blobs/add_blob_to_demo', params=params, files=files).json()
 
     try:
         assert response['status'] == 'OK', "error adding the blobs"
