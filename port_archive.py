@@ -22,7 +22,7 @@ def get_page(demo_id):
     Get the pages
     '''
     params = {'demo_id': demo_id}
-    response = requests.get('http://integration.ipol.im/api/archive/get_page', params=params).json()
+    response = requests.get('http://127.0.0.1/api/archive/get_page', params=params).json()
     return response
 
 
@@ -31,7 +31,7 @@ def delete_experiment(experiment_id):
     Remove an experiment
     '''
     params = {'experiment_id': experiment_id}
-    response = requests.delete('http://integration.ipol.im/api/archive/delete_experiment', params=params).json()
+    response = requests.delete('http://127.0.0.1/api/archive/delete_experiment', params=params).json()
     if response['status'] == 'OK':
         print(response)
     else:
@@ -75,7 +75,7 @@ def add_experiment(demo_id, blobs, parameters):
         'blobs': json.dumps(blobs),
         'parameters': json.dumps(parameters)
     }
-    response = requests.post('http://integration.ipol.im/api/archive/add_experiment', params=params).json()
+    response = requests.post('http://127.0.0.1/api/archive/add_experiment', params=params).json()
     try:
         if response['status']=='OK':
             print(response)
@@ -95,7 +95,7 @@ def update_experiment_date(experiment_id, date):
         'date': date,
         'date_format': '%Y/%m/%d %H:%M'
     }
-    response = requests.post('http://integration.ipol.im/api/archive/update_experiment_date', params=params).json()
+    response = requests.post('http://127.0.0.1/api/archive/update_experiment_date', params=params).json()
     print(response)
 
 
