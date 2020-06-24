@@ -23,7 +23,7 @@ def get_data(demo_id):
     Get the pages
     '''
     params = {'demo_id': demo_id}
-    response = requests.get('http://localhost/api/archive/get_page', params=params).json()
+    response = requests.get('http://127.0.0.1/api/archive/get_page', params=params).json()
     return response
 
 def delete_experiment(experiment_id):
@@ -31,7 +31,7 @@ def delete_experiment(experiment_id):
     Remove an experiment
     '''
     params = {'experiment_id': experiment_id}
-    response = requests.delete('http://localhost/api/archive/delete_experiment', params=params).json()
+    response = requests.delete('http://127.0.0.1/api/archive/delete_experiment', params=params).json()
     
     if response['status']!='OK':
         raise RemoveExperimentException("Data Not Found")
@@ -72,7 +72,7 @@ def get_page(demo_id, page):
     '''
     params = {'demo_id': demo_id,
             'page': page}
-    response = requests.get('http://localhost/api/archive/get_page', params=params).json()
+    response = requests.get('http://127.0.0.1/api/archive/get_page', params=params).json()
     return response
 
 
@@ -85,7 +85,7 @@ def add_experiment(demo_id, blobs, parameters):
         'blobs': json.dumps(blobs),
         'parameters': json.dumps(parameters)
     }
-    response = requests.post('http://localhost/api/archive/add_experiment', params=params).json()
+    response = requests.post('http://127.0.0.1/api/archive/add_experiment', params=params).json()
     
     assert response ['status'] == 'OK'
     return response
@@ -100,7 +100,7 @@ def update_experiment_date(experiment_id, date):
         'date': date,
         'date_format': '%Y-%m-%d %H:%M'
     }
-    response = requests.post('http://localhost/api/archive/update_experiment_date', params=params).json()
+    response = requests.post('http://127.0.0.1/api/archive/update_experiment_date', params=params).json()
 
     assert response ['status'] == 'OK'
     return response
@@ -171,3 +171,5 @@ for count, (blobs, parameters, date) in enumerate(read_from_db(), 1):
             print("\n")
 
 print("\nDone Porting\n")
+
+
