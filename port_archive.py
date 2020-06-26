@@ -9,7 +9,6 @@ import argparse
 import json
 import requests
 
-
 class RemoveExperimentException(Exception):
     '''
     Remove experiment error
@@ -38,12 +37,12 @@ def delete_experiment(experiment_id):
 
 def read_from_db():
 
-    BASE_DIR = os.path.dirname(os.path.abspath(db_abspath))
+    BASE_DIR = os.path.dirname(os.path.abspath(os.path.join(archive_dir, 'index.db')))
     db_path = os.path.join(BASE_DIR, 'index.db')
 
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
-    c.execute('SELECT key, date FROM buckets WHERE public = 1')
+    c.execute('SELECT key, date FROM buckets WHERE public = 1 AND date > ? ', (last_date,))
     data = c.fetchall()
 
     for key, date in data:
@@ -90,7 +89,6 @@ def add_experiment(demo_id, blobs, parameters):
     assert response ['status'] == 'OK'
     return response
 
-
 def update_experiment_date(experiment_id, date):
     '''
     Update the date of experiment
@@ -105,26 +103,19 @@ def update_experiment_date(experiment_id, date):
     assert response ['status'] == 'OK'
     return response
 
-
 # parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("--demo_id", "-id", required=True,
                 type=int, help="demo id required")
 ap.add_argument("--archive_dir", "-a", required=True,
                 help="archive directory containing 'index.cfg' files")
-ap.add_argument("--db_abspath", "-db", required=True,
-                help="database path required")
-ap.add_argument("--boolean", "-bool", required=False)               
+ap.add_argument("-r", '--remove', help="Remove Demo", action="store_true")
 args = ap.parse_args()
 demo_id = args.demo_id
 archive_dir = args.archive_dir
-db_abspath = args.db_abspath
-boolean = args.boolean
-
 
 # clear the archive
-if boolean == "True":
-
+if args.remove:
     nb_pages = get_data(demo_id)['meta']['number_of_pages']
     total_exps = get_data(demo_id)['meta']['number_of_experiments']
 
@@ -137,39 +128,36 @@ if boolean == "True":
 
     print(f"Done Deleting: {total_exps}")
 
-
 #last archived date
 last_page_info = get_page(demo_id, 0)
 experiments = last_page_info['experiments']
-last_date = experiments[-1]['date']
-last_date = dt.datetime.strptime(last_date, '%Y-%m-%d %H:%M:%S')
+res = not bool(experiments)
+if res!=True: 
+    last_date = experiments[-1]['date']
+    last_date = dt.datetime.strptime(last_date, '%Y-%m-%d %H:%M:%S')
+    last_date = last_date.strftime('%Y/%m/%d %H:%M:')
+    print(f' last date: {last_date}')
+
+else:
+    last_date = '1880/08/08 05:42'
 
 
 #Porting Archive
-
 print("\nPorting archive\n")
-exp_done =0 
 for count, (blobs, parameters, date) in enumerate(read_from_db(), 1):
     
-    date = dt.datetime.strptime(date, '%Y/%m/%d %H:%M')    
+    date = dt.datetime.strptime(date, '%Y/%m/%d %H:%M')
+    new_date = date.strftime('%Y-%m-%d %H:%M')
 
-    if date > last_date:
+    response = add_experiment(demo_id, blobs, parameters)
+    update_experiment_date(response['id_experiment'], new_date)
         
-        new_date = date.strftime('%Y-%m-%d %H:%M')        
-        
-        response = add_experiment(demo_id, blobs, parameters)
-        exp_done = exp_done + 1
-        update_experiment_date(response['id_experiment'], new_date)
-        
-
-        if exp_done % 100 == 0:
-            print(response)
-            print(f"\nDemo: {demo_id}")
-            print(f"Experiments Added: {exp_done}")
-            now = datetime.date.today()
-            print(f"Date: {now.strftime('%Y-%m-%d')}")
-            print("\n")
+    if count % 100 == 0:
+        print(response)
+        print(f"\nDemo: {demo_id}")
+        print(f"Experiments Added: {count}")
+        now = datetime.date.today()
+        print(f"Date: {now.strftime('%Y-%m-%d')}")
+        print("\n")
 
 print("\nDone Porting\n")
-
-
