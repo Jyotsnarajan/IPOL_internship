@@ -2,7 +2,6 @@
 
 import argparse
 import os
-import sys
 
 # parse the arguments
 ap = argparse.ArgumentParser()
