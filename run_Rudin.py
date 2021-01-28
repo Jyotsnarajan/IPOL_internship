@@ -16,14 +16,7 @@ add_noise = args.add_noise.lower() == 'true'
 noisearg = str.lower(args.noisemodel) + ':' + str(args.sigma)
 darg = '-D' + str(4*float(args.sigma))
 
-if add_noise == False:		
-	p1 = f'tvdenoise -n {noisearg} input_0.png denoised.png'
-	if os.system(p1)!= 0: exit(-1)
-	
-	p2 = f'imdiff {darg} input_0.png denoised.png diff.png'
-	if os.system(p2)!= 0: exit(-1)
-
-else:
+if add_noise:
 	p1 = f'imnoise {noisearg} input_0.png noisy.png'
 	if os.system(p1)!= 0: exit(-1)
 	
@@ -37,4 +30,11 @@ else:
 	if os.system(p4)!= 0: exit(-1)
 
 	p5 = f'imdiff {darg} input_0.png denoised.png diff.png'
-	if os.system(p5)!= 0: exit(-1)
+	if os.system(p5)!= 0: exit(-1)	
+
+else:
+	p1 = f'tvdenoise -n {noisearg} input_0.png denoised.png'
+	if os.system(p1)!= 0: exit(-1)
+	
+	p2 = f'imdiff {darg} input_0.png denoised.png diff.png'
+	if os.system(p2)!= 0: exit(-1)
