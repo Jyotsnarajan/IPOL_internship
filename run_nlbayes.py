@@ -29,4 +29,4 @@ usearea2 = get_bool_param_from_string(args.usearea2)
 
 p = f'NL_Bayes input_0.png {args.sigma} {add_noise} noisy.png denoised.png basic.png\
 		diff.png bias.png basic_bias.png diff_bias.png {usearea1} {usearea2} {computebias}' 
-os.system(p)
+if os.system(p)!= 0: exit(-1)
