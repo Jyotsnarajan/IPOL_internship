@@ -13,7 +13,7 @@ args = ap.parse_args()
 #string to bool
 add_noise = args.add_noise.lower() == 'true'
 
-add_noise = 1 if args.add_noise else 0
+add_noise = 1 if add_noise else 0
 
 noisearg = str.lower(args.noisemodel) + ':' + str(args.sigma)
 darg = '-D' + str(4*float(args.sigma))
