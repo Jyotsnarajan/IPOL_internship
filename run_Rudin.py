@@ -13,12 +13,10 @@ args = ap.parse_args()
 #string to bool
 add_noise = args.add_noise.lower() == 'true'
 
-add_noise = 1 if add_noise else 0
-
 noisearg = str.lower(args.noisemodel) + ':' + str(args.sigma)
 darg = '-D' + str(4*float(args.sigma))
 
-if add_noise == 0:		
+if add_noise == False:		
 	p1 = f'tvdenoise -n {noisearg} input_0.png denoised.png'
 	if os.system(p1)!= 0: exit(-1)
 	
