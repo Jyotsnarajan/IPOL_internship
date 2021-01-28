@@ -13,7 +13,7 @@ args = ap.parse_args()
 #string to bool
 add_noise = args.add_noise.lower() == 'true'
 
-add_noise = 1 if args.add_noise else 0
+add_noise = 1 if add_noise else 0
 
 #noisy and denoised images	
 p1 = f'NLMeansP input_0.png {args.sigma} {add_noise} input_1.png output_1.png'
