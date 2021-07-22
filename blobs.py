@@ -294,6 +294,11 @@ class Blobs():
                     editor_demo_id = database.get_demo_id(conn, demo_id)
                     pos_set = database.get_available_pos_in_demo_set(conn, editor_demo_id, blob_set)
 
+                # if blob_set, then check if this blobset has zero blob in the database, if yes then set pos=0
+                if blob_set:
+                    if not database.get_demo_blobs(conn, demo_id, blob_set):
+                        pos_set = 0
+
                 self.do_add_blob_to_demo(conn, demo_id, blob_id, blob_set, pos_set, title)
                 res = True
             elif dest["dest"] == "template":

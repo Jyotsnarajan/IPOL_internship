@@ -543,6 +543,27 @@ def is_pos_occupied_in_demo_set(conn, editor_demo_id, blob_set, pos):
         raise IPOLBlobsDataBaseError(ex)
 
 
+def get_demo_blobs(conn, editor_demo_id, blob_set):
+    """
+    Check if any blob exists owned by a particular blob set
+    """
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT COUNT(*)
+            FROM demos_blobs
+            WHERE blob_set = ?
+            AND demo_id = (SELECT id
+                            FROM demos
+                            WHERE editor_demo_id = ?)
+        """, (blob_set, editor_demo_id))
+
+        return cursor.fetchone()[0] >= 1
+
+    except Exception as ex:
+        raise IPOLBlobsDataBaseError(ex)
+
+
 def is_pos_occupied_in_template_set(conn, template_id, blob_set, pos):
     """
     Check if the position given is already used by other blob in the same set
